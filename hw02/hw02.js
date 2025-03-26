@@ -16,6 +16,7 @@ let vao = null;
 let dLocation = null;
 let dy = 0;
 let dx = 0;
+let keyPressed = 0;
 
 // Initialize WebGL stuffs
 function initWebGL() {
@@ -72,8 +73,26 @@ function setupBuffers(shader) {
   return vao;
 }
 
+
 // Render function
 function render(vao) {
+  if (keyPressed != 0) {
+    switch (keyPressed) {
+      case 1:
+        dy = Math.min(0.9, dy + 0.01);
+        break;
+      case 2:
+        dy = Math.max(-0.9, dy - 0.01);
+        break;
+      case 3:
+        dx = Math.min(0.9, dx + 0.01);
+        break;
+      case 4:
+        dx = Math.max(-0.9, dx - 0.01);
+        break;
+    }
+  }
+
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.uniform2fv(dLocation, [dx, dy]);
   gl.bindVertexArray(vao);
@@ -111,21 +130,28 @@ if (!initWebGL()) {
 }
 
 window.addEventListener("keydown", (event) => {
-  // 아래 if condition을 if (event.key in keys)로 간단히 할 수도 있음
-  if (event.key === "ArrowUp") {
-    if (dy >= 0.9) return;
-    else dy += 0.01;
-  } else if (event.key === "ArrowDown") {
-    if (dy <= -0.9) return;
-    else dy -= 0.01;
-  } else if (event.key === "ArrowLeft") {
-    if (dx <= -0.9) return;
-    else dx -= 0.01;
-  } else if (event.key === "ArrowRight") {
-    if (dx >= 0.9) return;
-    else dx += 0.01;
+  switch (event.key) {
+    case "ArrowUp":
+      keyPressed = 1;
+      break;
+    case "ArrowDown":
+      keyPressed = 2;
+      break;
+    case "ArrowRight":
+      keyPressed = 3;
+      break;
+    case "ArrowLeft":
+      keyPressed = 4;
+      break;
   }
 });
+
+window.addEventListener("keyup", (event) => {
+  if (event.key == "ArrowUp" || event.key == "ArrowDown" || event.key == "ArrowRight" || event.key == "ArrowLeft") {
+    keyPressed = 0;
+  }
+});
+
 
 main()
   .then((success) => {
