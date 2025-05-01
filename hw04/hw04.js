@@ -99,6 +99,37 @@ function applySunTransform() {
 
 function applyEarthTransform() {
   finalEarthTransform = mat4.create();
+  mat4.rotate(
+    finalEarthTransform,
+    finalEarthTransform,
+    rotation.earth_revolution,
+    [0, 0, 1]
+  );
+  mat4.translate(finalEarthTransform, finalEarthTransform, [0.7, 0, 0]);
+  mat4.rotate(
+    finalEarthTransform,
+    finalEarthTransform,
+    rotation.earth_rotation,
+    [0, 0, 1]
+  );
+  mat4.scale(finalEarthTransform, finalEarthTransform, [0.1, 0.1, 1]);
+  /*
+  mat4.rotate(
+    finalEarthTransform,
+    finalEarthTransform,
+    rotation.earth_revolution,
+    [0, 0, 1]
+  );
+  mat4.translate(finalEarthTransform, finalEarthTransform, [0.7, 0, 0]);
+  mat4.rotate(
+    finalEarthTransform,
+    finalEarthTransform,
+    rotation.earth_rotation,
+    [0, 0, 1]
+  );
+  mat4.scale(finalEarthTransform, finalEarthTransform, [0.1, 0.1, 1]);
+  */
+  /*
   [
     [mat4.scale, [0.1, 0.1, 1]],
     [mat4.rotate, rotation.earth_rotation, [0, 0, 1]],
@@ -111,6 +142,7 @@ function applyEarthTransform() {
       finalEarthTransform
     );
   });
+  */
 }
 
 function applyMoonTransform() {
